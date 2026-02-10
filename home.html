@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home - Algosark - Ready-Made Trading Strategies</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="icon" href="icon.png" type="image/png">
+  <!-- Tailwind CDN (for quick preview - in production use build process) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'primary': '#1a237e',
+            'accent-blue': '#0d47a1',
+            'accent-gold': '#ffb300',
+            'light-gray': '#f5f7fa',
+            'medium-gray': '#e0e0e0',
+            'dark-gray': '#424242',
+            'text-dark': '#212121',
+            'text-light': '#757575',
+            'success-green': '#4caf50',
+          },
+          boxShadow: {
+            'soft': '0 4px 12px rgba(0, 0, 0, 0.08)',
+            'hover': '0 6px 12px rgba(13, 71, 161, 0.2)',
+            'strong': '0 12px 20px rgba(0, 0, 0, 0.1)',
+          },
+          transitionProperty: {
+            'height': 'height',
+          },
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-white text-text-dark font-sans leading-relaxed antialiased">
+
+  <!-- Header -->
+  <header class="bg-white shadow-soft sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8 flex items-center justify-between h-16 lg:h-[70px]">
+      <!-- Logo -->
+      <a href="home.html" class="flex items-center text-2xl lg:text-[24px] font-bold text-primary">
+        <img src="icon2.jpg" alt="AlgosArk logo" class="w-10 h-10 mr-2" />
+        AlgosArks
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="home.html" class="font-medium text-blue-600 hover:text-accent-blue transition duration-300">Home</a>
+        <a href="pricing.html" class="font-medium text-gray-800 hover:text-accent-blue transition duration-300">Pricing</a>
+        <a href="strategy.html" class="font-medium text-gray-800 hover:text-accent-blue transition duration-300">Strategy</a>
+        <a href="pricing.html" class="bg-accent-blue text-white font-semibold px-6 py-2.5 rounded hover:bg-primary transition duration-300 shadow hover:shadow-hover hover:-translate-y-0.5">Get Started</a>
+      </nav>
+
+      <!-- Mobile Menu Button -->
+      <button class="lg:hidden text-primary text-3xl mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu hidden lg:hidden bg-white shadow-soft absolute top-[64px] lg:top-[70px] left-0 right-0 z-40 px-6 py-6">
+      <div class="flex flex-col gap-4">
+        <a href="home.html" class="font-medium text-blue-600 py-3 hover:text-accent-blue border-b border-light-gray">Home</a>
+        <a href="pricing.html" class="font-medium text-gray-800 py-3 hover:text-accent-blue border-b border-light-gray">Pricing</a>
+        <a href="strategy.html" class="font-medium text-gray-800 py-3 hover:text-accent-blue border-b border-light-gray">Strategy</a>
+        <a href="#" class="bg-accent-blue text-white font-semibold px-6 py-3 rounded text-center">Get Started</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero / Splash Section -->
+  <section class="relative overflow-hidden bg-[#f7f8fa] py-16 md:py-20 lg:py-28">
+  <!-- Optional subtle background layers (if you still want them) -->
+  <div class="absolute inset-0 pointer-events-none">
+    <div 
+      class="absolute inset-0 bg-[url('https://cdn.quantconnect.com/i/tu/header-sundial.svg')] bg-no-repeat bg-left-top bg-contain opacity-40"
+    ></div>
+    <div 
+      class="absolute inset-0 bg-[url('https://cdn.quantconnect.com/i/tu/candles-bg.svg')] bg-repeat-x bg-bottom opacity-30"
+    ></div>
+  </div>
+
+  <!-- Main content -->
+  <div class="relative container mx-auto px-6 max-w-7xl">
+    <div class="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16" style="height: 490px;">
+      <!-- Text content -->
+      <div class="w-full lg:w-5/12 text-center lg:text-left">
+        <p class="text-4xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight mb-6">
+          Advanced Algorithmic Trading & Dynamic Hedging,<br class="hidden sm:block" />
+          Built for Institutions
+        </p>
+
+        <p class="text-lg md:text-xl text-gray-700 mb-8 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+          Advanced algorithmic execution and dynamic hedging without giving up control. Algosark connects directly to your broker, delivering machine learning-powered risk adjustments, regime detection, and smart venue routing for professional trading desks.
+        </p>
+
+        <div class="flex justify-center lg:justify-start">
+          <a
+            href="pricing.html"
+            class="inline-flex items-center px-8 py-4 bg-primary hover:bg-primary-700 text-white font-semibold text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+          >
+            Get Started
+          </a>
+        </div>
+      </div>
+
+      <!-- Image -->
+      <div class="w-full lg:w-7/12">
+        <img
+          src="https://cdn.quantconnect.com/i/tu/splash-header-bg.webp"
+          alt="Platform visualization"
+          style="max-width: unset; height: 600px;"
+          class="h-auto"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Features -->
+  <section class="py-20 md:py-24 bg-white">
+    <h2 class="text-center text-3xl md:text-4xl font-bold text-primary mb-16">Why Choose Algosark?</h2>
+    <p class="text-xl text-center md:text-2xl text-gray-700 max-w-4xl mx-auto mb-16">Algosark is the simplest way to get started with algo trading.</p>
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8 lg:gap-12">
+      <div class="bg-light-gray p-8 rounded-xl shadow-soft hover:-translate-y-3 hover:shadow-strong transition duration-300">
+        <div class="text-5xl text-accent-blue mb-6"><i class="fas fa-code"></i></div>
+        <h3 class="text-2xl font-semibold text-primary mb-4">No Coding Required</h3>
+        <p class="text-gray-700">Browse, test, and deploy pre-built trading strategies without writing a single line of code.</p>
+      </div>
+
+      <div class="bg-light-gray p-8 rounded-xl shadow-soft hover:-translate-y-3 hover:shadow-strong transition duration-300">
+        <div class="text-5xl text-accent-blue mb-6"><i class="fas fa-user-tie"></i></div>
+        <h3 class="text-2xl font-semibold text-primary mb-4">Expert-Designed</h3>
+        <p class="text-gray-700">All strategies are designed by experienced traders and tested on real market data.</p>
+      </div>
+
+      <div class="bg-light-gray p-8 rounded-xl shadow-soft hover:-translate-y-3 hover:shadow-strong transition duration-300">
+        <div class="text-5xl text-accent-blue mb-6"><i class="fas fa-sliders-h"></i></div>
+        <h3 class="text-2xl font-semibold text-primary mb-4">Full Control</h3>
+        <p class="text-gray-700">You stay in control: choose what to run, when to run it, and how much to invest.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who is it for Section -->
+  <section class="py-16 md:py-24 bg-white">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          Who is Algosark for?
+        </h2>
+        <p class="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+          If you’ve ever thought <span class="italic font-medium">“I want to trade smarter, but don’t know how to build strategies…”</span>
+          <span class="font-semibold text-blue-700">Algosark is made for you.</span>
+        </p>
+      </div>
+
+      <!-- Target Audience Cards / List -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6">
+        
+        <!-- Card 1 -->
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-300 border border-blue-100">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-14 h-14 mb-6 rounded-full bg-blue-100 flex items-center justify-center">
+              <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">
+              Hedge Funds
+            </h3>
+            <p class="text-gray-700 leading-relaxed">
+              who require dynamic, real-time risk optimization and regime-aware hedging across multiple venues
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-300 border border-blue-100">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-14 h-14 mb-6 rounded-full bg-blue-100 flex items-center justify-center">
+              <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">
+              Principal Trading Firms
+            </h3>
+            <p class="text-gray-700 leading-relaxed">
+              who want fast, adaptive execution and smart routing to improve edge and reduce slippage
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-300 border border-blue-100">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-14 h-14 mb-6 rounded-full bg-blue-100 flex items-center justify-center">
+              <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17.343l.707-.707m2.828 2.829l-.707-.707m-4.95-4.95l-.707-.707m11.314 0l.707.707m-4.95 4.95l.707.707"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">
+              Brokers & Proprietary Trading Desks
+            </h3>
+            <p class="text-gray-700 leading-relaxed">
+              who need compliant, scalable algorithmic tools that integrate seamlessly with existing workflows
+            </p>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 shadow-sm hover:shadow-md transition-all duration-300 border border-blue-100">
+          <div class="flex flex-col items-center text-center">
+            <div class="w-14 h-14 mb-6 rounded-full bg-blue-100 flex items-center justify-center">
+              <svg class="w-7 h-7 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">
+              Family Offices & Institutional Investors
+            </h3>
+            <p class="text-gray-700 leading-relaxed">
+              who seek institutional-grade risk management and automated protection without transferring custody of funds
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="py-20 md:py-24 bg-light-gray">
+    <h2 class="text-center text-3xl md:text-4xl font-bold text-primary mb-6">How Algosark Works</h2>
+    <p class="text-center text-text-light text-lg mb-16 max-w-4xl mx-auto">A simple 4-step workflow designed for institutional desks</p>
+
+    <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="text-center">
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-accent-blue text-white rounded-full text-2xl font-bold mb-6">1</div>
+        <h3 class="text-xl font-semibold text-primary mb-4">Discover & Evaluate Strategies</h3>
+        <p class="text-gray-700">Browse a curated selection of advanced, regime-aware algorithmic strategies optimized for futures and options hedging and execution.</p>
+      </div>
+
+      <div class="text-center">
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-accent-blue text-white rounded-full text-2xl font-bold mb-6">2</div>
+        <h3 class="text-xl font-semibold text-primary mb-4">Test in Simulation</h3>
+        <p class="text-gray-700">Run comprehensive backtests across historical data or connect your broker account for realistic paper trading.</p>
+      </div>
+
+      <div class="text-center">
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-accent-blue text-white rounded-full text-2xl font-bold mb-6">3</div>
+        <h3 class="text-xl font-semibold text-primary mb-4">Deploy to Live Trading</h3>
+        <p class="text-gray-700">Seamlessly activate the strategy on your existing brokerage account.</p>
+      </div>
+
+      <div class="text-center">
+        <div class="inline-flex items-center justify-center w-14 h-14 bg-accent-blue text-white rounded-full text-2xl font-bold mb-6">4</div>
+        <h3 class="text-xl font-semibold text-primary mb-4">Monitor, Optimize & Scale</h3>
+        <p class="text-gray-700">Access live dashboards with real-time risk views, performance analytics, and regime change alerts.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+      <!-- Heading & Intro -->
+      <div class="text-center mb-16 md:mb-20">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          What Kind of Strategies Are Available?
+        </h2>
+        <p class="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto">
+          Algosark hosts a growing catalog of strategies, including:
+        </p>
+      </div>
+
+      <!-- Strategy Types Grid -->
+      <div class="grid md:grid-cols-3 gap-8 lg:gap-10 mb-16 md:mb-20">
+        
+        <!-- Equity Strategies -->
+        <div class="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-indigo-100 flex flex-col">
+          <div class="flex-1">
+            <div class="w-16 h-16 mb-6 mx-auto rounded-full bg-indigo-100 flex items-center justify-center">
+              <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 text-center mb-4">
+              Equity Strategies
+            </h3>
+            <p class="text-gray-700 text-center mb-6 leading-relaxed">
+              Single stock or basket of stocks based strategies
+            </p>
+          </div>
+          <a href="#" class="mt-auto block w-full py-3 bg-accent-blue text-white font-semibold rounded-lg text-center hover:bg-indigo-700 transition">
+            Know More
+          </a>
+        </div>
+
+        <!-- Options Strategies -->
+        <div class="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-indigo-100 flex flex-col">
+          <div class="flex-1">
+            <div class="w-16 h-16 mb-6 mx-auto rounded-full bg-indigo-100 flex items-center justify-center">
+              <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4"></path>
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"></circle>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 text-center mb-4">
+              Options Strategies
+            </h3>
+            <p class="text-gray-700 text-center mb-6 leading-relaxed">
+              Multi-leg, directional, and neutral setups
+            </p>
+          </div>
+          <a href="#" class="mt-auto block w-full py-3 bg-accent-blue text-white font-semibold rounded-lg text-center hover:bg-indigo-700 transition">
+            Know More
+          </a>
+        </div>
+
+        <!-- Indicator-Based Strategies -->
+        <div class="bg-gradient-to-br from-indigo-50 to-blue-50 rounded-2xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 border border-indigo-100 flex flex-col">
+          <div class="flex-1">
+            <div class="w-16 h-16 mb-6 mx-auto rounded-full bg-indigo-100 flex items-center justify-center">
+              <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-900 text-center mb-4">
+              Indicator-Based
+            </h3>
+            <p class="text-gray-700 text-center mb-6 leading-relaxed">
+              RSI, MACD, EMA, and other technical tools
+            </p>
+          </div>
+          <a href="#" class="mt-auto block w-full py-3 bg-accent-blue text-white font-semibold rounded-lg text-center hover:bg-indigo-700 transition">
+            Know More
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Features List - Single Box Style -->
+      <div class="max-w-4xl mx-auto mb-16 md:mb-20">
+        <div class="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
+          
+          <!-- Header -->
+          <div class="bg-accent-blue text-white px-8 py-3">
+            <h3 class="text-2xl md:text-3xl font-bold">
+              Each strategy includes:
+            </h3>
+          </div>
+
+          <!-- Bullet List -->
+          <div class="p-1 md:p-10">
+            <ul class="space-y-5 text-gray-800 text-lg">
+              <li class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-indigo-700 font-semibold text-xl">1</span>
+                </div>
+                <p class="leading-relaxed">
+                  Clear explanation in simple words
+                </p>
+              </li>
+              <li class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-indigo-700 font-semibold text-xl">2</span>
+                </div>
+                <p class="leading-relaxed">
+                  Parameter Details
+                </p>
+              </li>
+              <li class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-indigo-700 font-semibold text-xl">3</span>
+                </div>
+                <p class="leading-relaxed">
+                  Minimum capital required
+                </p>
+              </li>
+              <li class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-indigo-700 font-semibold text-xl">4</span>
+                </div>
+                <p class="leading-relaxed">
+                  Ability to Paper Trade
+                </p>
+              </li>
+              <li class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-indigo-700 font-semibold text-xl">5</span>
+                </div>
+                <p class="leading-relaxed">
+                  Ability to Live Trade
+                </p>
+              </li>
+              <li class="flex items-start gap-4">
+                <div class="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                  <span class="text-indigo-700 font-semibold text-xl">6</span>
+                </div>
+                <p class="leading-relaxed">
+                  Stop-loss and target logic
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="text-center">
+        <a href="#" class="inline-block px-10 py-5 bg-accent-blue text-white text-xl font-semibold rounded-xl hover:bg-accent-blue transition shadow-md hover:shadow-lg">
+          Browse All Strategies Now
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+
+      <!-- Section Heading -->
+      <div class="text-center mb-16 md:mb-20">
+        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-5">
+          Why Choose Algosark?
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Simple, safe, and powerful built for traders who want results without the complexity.
+        </p>
+      </div>
+
+      <!-- Benefits Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10">
+
+        <!-- Zero Coding -->
+        <div class="bg-white rounded-2xl p-8 shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center">
+          <div class="w-16 h-16 mb-6 rounded-full bg-blue-100 flex items-center justify-center">
+            <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">Zero Coding</h3>
+          <p class="text-gray-700 text-lg leading-relaxed">
+            No tech skills needed
+          </p>
+        </div>
+
+        <!-- Safe to Try -->
+        <div class="bg-white rounded-2xl p-8 shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center">
+          <div class="w-16 h-16 mb-6 rounded-full bg-green-100 flex items-center justify-center">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">Safe to Try</h3>
+          <p class="text-gray-700 text-lg leading-relaxed">
+            Paper trade before going live
+          </p>
+        </div>
+
+        <!-- Proven Logic -->
+        <div class="bg-white rounded-2xl p-8 shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center">
+          <div class="w-16 h-16 mb-6 rounded-full bg-purple-100 flex items-center justify-center">
+            <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">Proven Logic</h3>
+          <p class="text-gray-700 text-lg leading-relaxed">
+            Strategies designed by experienced traders
+          </p>
+        </div>
+
+        <!-- 1-Click Deployment -->
+        <div class="bg-white rounded-2xl p-8 shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center">
+          <div class="w-16 h-16 mb-6 rounded-full bg-orange-100 flex items-center justify-center">
+            <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">1-Click Deployment</h3>
+          <p class="text-gray-700 text-lg leading-relaxed">
+            As easy as using an app
+          </p>
+        </div>
+
+        <!-- Full Transparency -->
+        <div class="bg-white rounded-2xl p-8 shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center">
+          <div class="w-16 h-16 mb-6 rounded-full bg-teal-100 flex items-center justify-center">
+            <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">Full Transparency</h3>
+          <p class="text-gray-700 text-lg leading-relaxed">
+            See everything before you commit
+          </p>
+        </div>
+
+        <!-- Total Control -->
+        <div class="bg-white rounded-2xl p-8 shadow-md border border-gray-100 hover:shadow-xl transition-all duration-300 flex flex-col items-center text-center">
+          <div class="w-16 h-16 mb-6 rounded-full bg-amber-100 flex items-center justify-center">
+            <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37zM15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-3">Total Control</h3>
+          <p class="text-gray-700 text-lg leading-relaxed">
+            Start, Stop, or Switch strategies anytime
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-20 md:py-24 bg-white">
+    <h2 class="text-center text-3xl md:text-4xl font-bold text-primary mb-16">Frequently Asked Questions</h2>
+
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="faq-item border-b border-medium-gray py-6">
+        <button class="faq-question w-full flex justify-between items-center text-left">
+          <h3 class="text-xl font-semibold text-primary">Do I need any coding knowledge to use Algosark?</h3>
+          <span class="faq-toggle text-2xl text-accent-blue font-bold">+</span>
+        </button>
+        <div class="faq-answer mt-4 text-text-light max-h-0 overflow-hidden transition-all duration-300">
+          <p>No. Algosark is completely no-code. You choose a strategy and deploy it in just a few clicks.</p>
+        </div>
+      </div>
+
+      <div class="faq-item border-b border-medium-gray py-6">
+        <button class="faq-question w-full flex justify-between items-center text-left">
+          <h3 class="text-xl font-semibold text-primary">Can I test a strategy before going live?</h3>
+          <span class="faq-toggle text-2xl text-accent-blue font-bold">+</span>
+        </button>
+        <div class="faq-answer mt-4 text-text-light max-h-0 overflow-hidden transition-all duration-300">
+          <p>Yes! Every strategy can be paper traded using real market data before you deploy in the live market</p>
+        </div>
+      </div>
+
+
+      <div class="faq-item border-b border-medium-gray py-6">
+        <button class="faq-question w-full flex justify-between items-center text-left">
+          <h3 class="text-xl font-semibold text-primary">Is there a risk involved?</h3>
+          <span class="faq-toggle text-2xl text-accent-blue font-bold">+</span>
+        </button>
+        <div class="faq-answer mt-4 text-text-light max-h-0 overflow-hidden transition-all duration-300">
+          <p>Like any trading, there’s always some risk. But we give you tools to test strategies and understand their risk level before you commit.</p>
+        </div>
+      </div>
+
+
+      <div class="faq-item border-b border-medium-gray py-6">
+        <button class="faq-question w-full flex justify-between items-center text-left">
+          <h3 class="text-xl font-semibold text-primary">Do I need a broker account?</h3>
+          <span class="faq-toggle text-2xl text-accent-blue font-bold">+</span>
+        </button>
+        <div class="faq-answer mt-4 text-text-light max-h-0 overflow-hidden transition-all duration-300">
+          <p>Yes, to execute a strategy in any mode, you’ll need to connect a supported brokerage account.</p>
+        </div>
+      </div>
+
+      <div class="faq-item border-b border-medium-gray py-6">
+        <button class="faq-question w-full flex justify-between items-center text-left">
+          <h3 class="text-xl font-semibold text-primary">Can I run multiple strategies at once?</h3>
+          <span class="faq-toggle text-2xl text-accent-blue font-bold">+</span>
+        </button>
+        <div class="faq-answer mt-4 text-text-light max-h-0 overflow-hidden transition-all duration-300">
+          <p>Yes. You can deploy multiple strategies, even across different instruments or asset types depending on the subscription plan you choose.</p>
+        </div>
+      </div>
+
+
+      <div class="faq-item border-b border-medium-gray py-6">
+        <button class="faq-question w-full flex justify-between items-center text-left">
+          <h3 class="text-xl font-semibold text-primary">What if I want to stop a strategy?</h3>
+          <span class="faq-toggle text-2xl text-accent-blue font-bold">+</span>
+        </button>
+        <div class="faq-answer mt-4 text-text-light max-h-0 overflow-hidden transition-all duration-300">
+          <p>You can start, stop, or change your deployed strategies anytime—right from the “My Portfolio” page.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gradient-to-br from-gray-900 to-black text-white py-16 pb-8">
+        <div class="max-w-7xl mx-auto px-6 lg:px-8">
+            <div class="flex flex-col gap-12">
+            <!-- Main content grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-12">
+                <!-- Brand & description column -->
+                <div class="lg:col-span-2 flex flex-col gap-6">
+                <div class="flex items-center gap-3">
+                    <img src="icon.png" alt="AlgosArk logo" class="w-20 h-20" />
+                    <h1 class="text-3xl font-bold">AlgosArk</h1>
+                </div>
+
+                <p class="text-gray-300 leading-relaxed max-w-md text-base">
+                    Trading in financial products involves significant risk and may not be suitable for all investors. 
+                    Past performance is not indicative of future results. Use only risk capital. 
+                    Read full risk disclosure, hypothetical performance disclaimer, and terms carefully before subscribing.
+                </p>
+
+                <!-- Social icons -->
+                <div class="flex gap-4">
+                    <a 
+                    href="#" 
+                    class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:bg-green-600 hover:scale-110 hover:shadow-lg"
+                    aria-label="LinkedIn"
+                    >
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 448 512" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100.28 448H7.4V148.9h92.88zM53.79 108.1C24.09 108.1 0 83.5 0 53.8a53.79 53.79 0 0 1 107.58 0c0 29.7-24.1 54.3-53.79 54.3zM447.9 448h-92.68V302.4c0-34.7-.7-79.2-48.29-79.2-48.29 0-55.69 37.7-55.69 76.7V448h-92.78V148.9h89.08v40.8h1.3c12.4-23.5 42.69-48.3 87.88-48.3 94 0 111.28 61.9 111.28 142.3V448z"/>
+                    </svg>
+                    </a>
+
+                    <a 
+                    href="#" 
+                    class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:bg-green-600 hover:scale-110 hover:shadow-lg"
+                    aria-label="Twitter"
+                    >
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/>
+                    </svg>
+                    </a>
+
+                    <a 
+                    href="#" 
+                    class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:bg-green-600 hover:scale-110 hover:shadow-lg"
+                    aria-label="Facebook"
+                    >
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M279.14 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.43 0 225.36 0c-73.22 0-121.08 44.38-121.08 124.72v70.62H22.89V288h81.39v224h100.17V288z"/>
+                    </svg>
+                    </a>
+                </div>
+                </div>
+
+                <!-- Links sections -->
+                <div class="lg:col-span-3 grid grid-cols-1 sm:grid-cols-3 gap-10">
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-6">Quick Links</h4>
+                    <ul class="space-y-3 text-gray-300">
+                    <li><a href="#" class="hover:text-green-500 transition-colors duration-300 hover:translate-x-1 inline-block">Home</a></li>
+                    <li><a href="#" class="hover:text-green-500 transition-colors duration-300 hover:translate-x-1 inline-block">Pricing</a></li>
+                    <li><a href="#" class="hover:text-green-500 transition-colors duration-300 hover:translate-x-1 inline-block">Strategy</a></li>
+                    </ul>
+                </div>
+
+                <!-- Our Solutions -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-6">Our Solutions</h4>
+                    <ul class="space-y-3 text-gray-300">
+                    <li><a href="#" class="hover:text-green-500 transition-colors duration-300 hover:translate-x-1 inline-block">Renewable Beginner Plan</a></li>
+                    <li><a href="#" class="hover:text-green-500 transition-colors duration-300 hover:translate-x-1 inline-block">Energy Intermediate Plan</a></li>
+                    <li><a href="#" class="hover:text-green-500 transition-colors duration-300 hover:translate-x-1 inline-block">Sustainability Advanced Plan</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-6">Contact Info</h4>
+                    <ul class="space-y-5 text-gray-300">
+                    <li class="flex items-start gap-3">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 512 512">
+                        <path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7zM256 320c23.2.4 56.6-29.2 73.4-41.4 132.7-96.3 142.8-104.7 173.4-128.7 5.8-4.5 9.2-11.5 9.2-18.9v-19c0-26.5-21.5-48-48-48H48C21.5 64 0 85.5 0 112v19c0 7.4 3.4 14.3 9.2 18.9 30.6 23.9 40.7 32.4 173.4 128.7 16.8 12.2 50.2 41.8 73.4 41.4z"/>
+                        </svg>
+                        <a href="mailto:info@arkofalgos.co.uk" class="hover:text-green-500 transition-colors duration-300">
+                        info@arkofalgos.co.uk
+                        </a>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <svg class="w-5 h-5 text-green-500 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 384 512">
+                        <path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"/>
+                        </svg>
+                        <span>
+                        Algosark,<br>
+                        One Canada Square,<br>
+                        Canary Wharf, London, E14 5AB
+                        </span>
+                    </li>
+                    </ul>
+                </div>
+                </div>
+            </div>
+
+            <!-- Bottom bar -->
+            <div class="border-t border-white/10 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6 text-sm text-gray-400">
+                <p>
+                    Copyright © <span class="text-white font-medium">2026 Algosark</span>. All rights reserved.
+                </p>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-green-500 transition-colors duration-300">Privacy Policy</a>
+                    <a href="#" class="hover:text-green-500 transition-colors duration-300">Terms of Service</a>
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Mobile menu
+    document.querySelector('.mobile-menu-btn').addEventListener('click', () => {
+      document.querySelector('.mobile-menu').classList.toggle('hidden');
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-question').forEach(question => {
+      question.addEventListener('click', () => {
+        const answer = question.nextElementSibling;
+        const toggle = question.querySelector('.faq-toggle');
+        const isOpen = answer.style.maxHeight && answer.style.maxHeight !== '0px';
+
+        // Close all
+        document.querySelectorAll('.faq-answer').forEach(a => {
+          a.style.maxHeight = '0px';
+        });
+        document.querySelectorAll('.faq-toggle').forEach(t => t.textContent = '+');
+
+        if (!isOpen) {
+          answer.style.maxHeight = answer.scrollHeight + 'px';
+          toggle.textContent = '−';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

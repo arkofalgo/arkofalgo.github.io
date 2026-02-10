@@ -45,7 +45,7 @@
       <!-- Logo -->
       <a href="index.html" class="flex items-center text-2xl lg:text-[24px] font-bold text-primary">
         <img src="icon2.jpg" alt="AlgosArk logo" class="w-10 h-10 mr-2" />
-        AlgosArks
+        AlgosArk
       </a>
 
       <!-- Desktop Navigation -->
@@ -137,7 +137,7 @@
   <section class="py-20 bg-gray-50">
     <div class="max-w-7xl mx-auto px-6">
       <div class="flex flex-col md:flex-row justify-between items-center mb-12">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Compare All Phoenix Features</h2>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900">Compare All Features</h2>
         <div class="flex space-x-4 mt-6 md:mt-0">
           <button id="expandAll" class="px-6 py-3 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 font-medium transition">
             Expand All
@@ -155,7 +155,7 @@
             Platforms
             <i class="fas fa-chevron-down transition-transform duration-200"></i>
           </button>
-          <div class="hidden">
+          <div class="feature-content hidden">
             <div class="grid grid-cols-4 gap-6 p-8 text-sm">
               <div class="font-semibold text-gray-700">Feature</div>
               <div class="text-center font-semibold text-blue-600">Beginner</div>
@@ -558,19 +558,24 @@
     </footer>
 
   <script>
-    document.getElementById('expandAll').addEventListener('click', () => {
-      document.querySelectorAll('div.hidden').forEach(el => el.classList.remove('hidden'));
-    });
+  const expandAllBtn = document.getElementById('expandAll');
+  const collapseAllBtn = document.getElementById('collapseAll');
 
-    document.getElementById('collapseAll').addEventListener('click', () => {
-      document.querySelectorAll('.hidden').forEach(el => { /* already hidden */ });
-      document.querySelectorAll('div:not(.hidden)').forEach(el => {
-        if (el.previousElementSibling && el.previousElementSibling.tagName === 'BUTTON') {
-          el.classList.add('hidden');
-        }
-      });
+  const featureContents = document.querySelectorAll('.feature-content');
+
+  expandAllBtn.addEventListener('click', () => {
+    featureContents.forEach(section => {
+      section.classList.remove('hidden');
     });
-  </script>
+  });
+
+  collapseAllBtn.addEventListener('click', () => {
+    featureContents.forEach(section => {
+      section.classList.add('hidden');
+    });
+  });
+</script>
+
 
   <!-- JavaScript -->
   <script>

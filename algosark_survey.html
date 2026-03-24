@@ -1,0 +1,1625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algosark — Investor Survey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0D1B2A;
+    --navy-mid: #162236;
+    --navy-soft: #1F3352;
+    --accent: #00C896;
+    --accent-dim: #00a87e;
+    --accent-glow: rgba(0,200,150,0.12);
+    --gold: #F5C842;
+    --text-primary: #F0EDE8;
+    --text-secondary: #9BA8B5;
+    --text-muted: #5C6B7A;
+    --border: rgba(255,255,255,0.07);
+    --border-hover: rgba(0,200,150,0.3);
+    --card-bg: rgba(255,255,255,0.03);
+    --card-bg-hover: rgba(255,255,255,0.055);
+    --selected-bg: rgba(0,200,150,0.1);
+    --selected-border: rgba(0,200,150,0.5);
+    --error: #ff6b6b;
+    --progress-h: 3px;
+    --serif: 'DM Serif Display', serif;
+    --sans: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--navy);
+    color: var(--text-primary);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 15% 10%, rgba(0,200,150,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 85% 90%, rgba(21,51,82,0.8) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ── Progress Bar ── */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: var(--progress-h);
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    z-index: 1000;
+    transition: width 0.5s cubic-bezier(.4,0,.2,1);
+  }
+
+  /* ── Topbar ── */
+  .topbar {
+    position: fixed;
+    top: var(--progress-h);
+    left: 0; right: 0;
+    height: 56px;
+    background: rgba(13,27,42,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2rem;
+    z-index: 100;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--serif);
+    font-size: 20px;
+    letter-spacing: -0.3px;
+  }
+
+  .logo-mark {
+    width: 30px; height: 30px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .logo-mark svg { width: 16px; height: 16px; }
+
+  .progress-label {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-secondary);
+    letter-spacing: 0.5px;
+  }
+
+  .progress-label span {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ── Main Layout ── */
+  .shell {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 100px 2rem 6rem;
+  }
+
+  /* ── Screens ── */
+  .screen {
+    display: none;
+    animation: fadeUp 0.45s cubic-bezier(.4,0,.2,1) forwards;
+  }
+
+  .screen.active { display: block; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Cover Screen ── */
+  .cover-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  .cover-title {
+    font-family: var(--serif);
+    font-size: clamp(38px, 6vw, 58px);
+    line-height: 1.08;
+    letter-spacing: -1px;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+  }
+
+  .cover-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .cover-desc {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 540px;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+
+  .cover-meta {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .meta-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  /* ── Section Headers ── */
+  .section-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-glow);
+    border: 1px solid rgba(0,200,150,0.2);
+    border-radius: 100px;
+    padding: 4px 12px;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(26px, 4vw, 34px);
+    line-height: 1.15;
+    letter-spacing: -0.5px;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-sub {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+  }
+
+  /* ── Question Block ── */
+  .q-block {
+    margin-bottom: 2.5rem;
+  }
+
+  .q-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 1rem;
+  }
+
+  .q-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    background: var(--accent-glow);
+    border: 1px solid rgba(0,200,150,0.2);
+    border-radius: 4px;
+    padding: 2px 7px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+  }
+
+  .q-text {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    line-height: 1.5;
+  }
+
+  .q-required {
+    color: var(--accent);
+    margin-left: 2px;
+  }
+
+  .q-hint {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 3px;
+  }
+
+  /* ── Radio / Checkbox Options ── */
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .options-grid.single-col { grid-template-columns: 1fr; }
+
+  @media (max-width: 560px) { .options-grid { grid-template-columns: 1fr; } }
+
+  .opt {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .opt input {
+    position: absolute;
+    opacity: 0;
+    width: 0; height: 0;
+  }
+
+  .opt-label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .opt-indicator {
+    width: 18px; height: 18px;
+    border: 1.5px solid var(--text-muted);
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s ease;
+  }
+
+  .opt-checkbox .opt-indicator { border-radius: 5px; }
+
+  .opt-indicator-inner {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    transform: scale(0);
+    transition: transform 0.2s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  .opt-checkbox .opt-indicator-inner {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    background: transparent;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L3.5 6.5L9 1' stroke='%2300C896' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+  }
+
+  .opt:hover .opt-label {
+    background: var(--card-bg-hover);
+    border-color: rgba(255,255,255,0.12);
+    color: var(--text-primary);
+  }
+
+  .opt input:checked ~ .opt-label {
+    background: var(--selected-bg);
+    border-color: var(--selected-border);
+    color: var(--text-primary);
+  }
+
+  .opt input:checked ~ .opt-label .opt-indicator {
+    border-color: var(--accent);
+    background: rgba(0,200,150,0.15);
+  }
+
+  .opt input:checked ~ .opt-label .opt-indicator-inner {
+    transform: scale(1);
+  }
+
+  /* ── Text Inputs ── */
+  .text-input, .select-input {
+    width: 100%;
+    padding: 12px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--text-primary);
+    outline: none;
+    transition: all 0.2s ease;
+    appearance: none;
+  }
+
+  .text-input::placeholder { color: var(--text-muted); }
+
+  .text-input:hover, .select-input:hover {
+    border-color: rgba(255,255,255,0.12);
+    background: var(--card-bg-hover);
+  }
+
+  .text-input:focus, .select-input:focus {
+    border-color: var(--accent);
+    background: rgba(0,200,150,0.05);
+    box-shadow: 0 0 0 3px rgba(0,200,150,0.08);
+  }
+
+  .select-wrapper {
+    position: relative;
+  }
+
+  .select-wrapper::after {
+    content: '';
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--text-muted);
+    pointer-events: none;
+  }
+
+  .select-input { padding-right: 36px; cursor: pointer; }
+
+  .select-input option {
+    background: var(--navy-mid);
+    color: var(--text-primary);
+  }
+
+  /* ── Range Slider ── */
+  .range-wrapper {
+    padding: 8px 0;
+  }
+
+  .range-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+
+  input[type="range"] {
+    width: 100%;
+    height: 4px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: var(--border);
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--navy);
+    box-shadow: 0 0 0 3px rgba(0,200,150,0.2);
+    transition: box-shadow 0.2s;
+  }
+
+  input[type="range"]:hover::-webkit-slider-thumb {
+    box-shadow: 0 0 0 5px rgba(0,200,150,0.25);
+  }
+
+  .range-val {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--accent);
+    margin-top: 12px;
+  }
+
+  .range-scale {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+
+  .scale-btn {
+    cursor: pointer;
+    width: 32px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    transition: all 0.15s;
+  }
+
+  .scale-btn:hover, .scale-btn.active {
+    color: var(--accent);
+    border-color: var(--selected-border);
+    background: var(--selected-bg);
+  }
+
+  /* ── Input Row (2-col) ── */
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  @media (max-width: 560px) { .input-row { grid-template-columns: 1fr; } }
+
+  .input-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    letter-spacing: 0.3px;
+  }
+
+  /* ── Textarea ── */
+  textarea.text-input {
+    resize: vertical;
+    min-height: 90px;
+    line-height: 1.6;
+  }
+
+  /* ── Validation Error ── */
+  .error-msg {
+    display: none;
+    font-size: 12px;
+    color: var(--error);
+    margin-top: 6px;
+    padding-left: 4px;
+  }
+
+  .q-block.has-error .error-msg { display: block; }
+  .q-block.has-error .text-input,
+  .q-block.has-error .select-input { border-color: rgba(255,107,107,0.5); }
+
+  /* ── Divider ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 2.5rem 0;
+  }
+
+  /* ── Buttons ── */
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    background: var(--accent);
+    color: var(--navy);
+    font-family: var(--sans);
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-decoration: none;
+  }
+
+  .btn-primary:hover {
+    background: var(--accent-dim);
+    transform: translateY(-1px);
+  }
+
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 22px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-secondary:hover {
+    border-color: rgba(255,255,255,0.15);
+    color: var(--text-primary);
+    background: var(--card-bg-hover);
+  }
+
+  .btn-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .btn-arrow { font-size: 16px; transition: transform 0.2s; }
+  .btn-primary:hover .btn-arrow { transform: translateX(3px); }
+
+  /* ── Info Box ── */
+  .info-box {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(0,200,150,0.05);
+    border: 1px solid rgba(0,200,150,0.15);
+    border-radius: 10px;
+    margin-bottom: 2rem;
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .info-icon {
+    font-size: 16px;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── Thank You Screen ── */
+  .ty-icon {
+    width: 72px; height: 72px;
+    background: rgba(0,200,150,0.12);
+    border: 1px solid rgba(0,200,150,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 30px;
+    margin-bottom: 2rem;
+  }
+
+  .ty-title {
+    font-family: var(--serif);
+    font-size: clamp(30px, 5vw, 44px);
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    margin-bottom: 1rem;
+  }
+
+  .ty-sub {
+    font-size: 15px;
+    color: var(--text-secondary);
+    max-width: 500px;
+    line-height: 1.75;
+    margin-bottom: 2.5rem;
+  }
+
+  .ty-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 2.5rem;
+    max-width: 480px;
+  }
+
+  @media (max-width: 480px) { .ty-stats { grid-template-columns: 1fr 1fr; } }
+
+  .ty-stat {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .ty-stat-val {
+    font-family: var(--mono);
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--accent);
+    display: block;
+  }
+
+  .ty-stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 3px;
+    display: block;
+  }
+
+  /* ── Step Indicator ── */
+  .step-trail {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin-bottom: 2.5rem;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+
+  .step-dot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+
+  .step-dot-circle {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-muted);
+    background: var(--card-bg);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-dot.done .step-dot-circle {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--navy);
+  }
+
+  .step-dot.active .step-dot-circle {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-glow);
+    box-shadow: 0 0 0 3px rgba(0,200,150,0.15);
+  }
+
+  .step-dot-name {
+    font-size: 10px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    transition: color 0.3s;
+  }
+
+  .step-dot.active .step-dot-name { color: var(--accent); }
+  .step-dot.done .step-dot-name { color: var(--text-secondary); }
+
+  .step-line {
+    height: 1.5px;
+    flex: 1;
+    min-width: 20px;
+    background: var(--border);
+    margin-bottom: 22px;
+    transition: background 0.4s;
+  }
+
+  .step-line.done { background: var(--accent); }
+
+  /* ── Confidentiality Banner ── */
+  .conf-banner {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 16px;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 3rem;
+  }
+
+  .conf-banner strong { color: var(--gold); font-weight: 500; }
+
+  /* ── Scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<nav class="topbar">
+  <div class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 12 L5 7 L8 9.5 L11 4 L14 8" stroke="#0D1B2A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    Algosark
+  </div>
+  <div class="progress-label">Step <span id="stepLabel">1</span> of 6</div>
+</nav>
+
+<main class="shell">
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 0 — COVER
+  ═══════════════════════════════════════════ -->
+  <div class="screen active" id="screen-0">
+    <p class="cover-eyebrow">Investor Research Survey · March 2026</p>
+    <h1 class="cover-title">Help shape the future of <em>algorithmic trading</em> for retail investors</h1>
+    <p class="cover-desc">Algosark is building a no-code platform that generates personalised algorithmic trading strategies for everyday investors. Your responses directly inform how we design it.</p>
+
+    <div class="cover-meta">
+      <div class="meta-item"><div class="meta-dot"></div> ~10 minutes to complete</div>
+      <div class="meta-item"><div class="meta-dot"></div> 6 sections, 22 questions</div>
+      <div class="meta-item"><div class="meta-dot"></div> Fully anonymous</div>
+    </div>
+
+    <div class="conf-banner">
+      <strong>Confidentiality notice:</strong> All responses are collected anonymously and used solely for academic and product research purposes by Tomiwa Kunle Oluwadare & Samuel Vikas Gujju. No personal data will be shared with third parties. By proceeding you consent to this use.
+    </div>
+
+    <button class="btn-primary" onclick="goTo(1)">
+      Begin Survey <span class="btn-arrow">→</span>
+    </button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 1 — DEMOGRAPHICS
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-1">
+    <div id="stepTrail1"></div>
+    <div class="section-badge">Section 1 of 5</div>
+    <h2 class="section-title">About you</h2>
+    <p class="section-sub">Basic demographic information to help us understand our respondent base.</p>
+
+    <div class="q-block" id="q1">
+      <div class="q-label">
+        <span class="q-num">Q1</span>
+        <div>
+          <div class="q-text">What is your age group?<span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid">
+        <label class="opt">
+          <input type="radio" name="age" value="18-24">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>18 – 24</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="age" value="25-34">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>25 – 34</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="age" value="35-44">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>35 – 44</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="age" value="45-54">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>45 – 54</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="age" value="55-64">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>55 – 64</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="age" value="65+">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>65 and above</div>
+        </label>
+      </div>
+      <p class="error-msg">Please select your age group.</p>
+    </div>
+
+    <div class="q-block" id="q2">
+      <div class="q-label">
+        <span class="q-num">Q2</span>
+        <div>
+          <div class="q-text">What is your gender?<span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid">
+        <label class="opt">
+          <input type="radio" name="gender" value="Male">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Male</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="gender" value="Female">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Female</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="gender" value="Non-binary">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Non-binary / gender diverse</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="gender" value="Prefer not to say">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Prefer not to say</div>
+        </label>
+      </div>
+      <p class="error-msg">Please select an option.</p>
+    </div>
+
+    <div class="q-block" id="q3">
+      <div class="q-label">
+        <span class="q-num">Q3</span>
+        <div>
+          <div class="q-text">What is your approximate annual gross income?<span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid">
+        <label class="opt">
+          <input type="radio" name="income" value="Under £20k">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Under £20,000</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="income" value="£20k–£35k">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>£20,000 – £35,000</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="income" value="£35k–£60k">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>£35,000 – £60,000</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="income" value="£60k–£100k">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>£60,000 – £100,000</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="income" value="Over £100k">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Over £100,000</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="income" value="Prefer not to say">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Prefer not to say</div>
+        </label>
+      </div>
+      <p class="error-msg">Please select your income range.</p>
+    </div>
+
+    <div class="q-block" id="q4">
+      <div class="q-label">
+        <span class="q-num">Q4</span>
+        <div>
+          <div class="q-text">What is your employment status?<span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid">
+        <label class="opt">
+          <input type="radio" name="employment" value="Employed">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Employed (full/part-time)</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="employment" value="Self-employed">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Self-employed</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="employment" value="Retired">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Retired</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="employment" value="Student">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Student</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="employment" value="Unemployed">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Unemployed / seeking work</div>
+        </label>
+      </div>
+      <p class="error-msg">Please select your employment status.</p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goTo(0)">← Back</button>
+      <button class="btn-primary" onclick="next(1, ['q1','q2','q3','q4'], 2)">Continue <span class="btn-arrow">→</span></button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 2 — TRADING PROFILE
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-2">
+    <div id="stepTrail2"></div>
+    <div class="section-badge">Section 2 of 5</div>
+    <h2 class="section-title">Your trading profile</h2>
+    <p class="section-sub">Tell us about your current investment activity and experience.</p>
+
+    <div class="q-block" id="q5">
+      <div class="q-label">
+        <span class="q-num">Q5</span>
+        <div>
+          <div class="q-text">How many years of trading or investing experience do you have?<span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid">
+        <label class="opt"><input type="radio" name="experience" value="<1 year"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Less than 1 year</div></label>
+        <label class="opt"><input type="radio" name="experience" value="1–2 years"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>1 – 2 years</div></label>
+        <label class="opt"><input type="radio" name="experience" value="2–5 years"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>2 – 5 years</div></label>
+        <label class="opt"><input type="radio" name="experience" value="5–10 years"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>5 – 10 years</div></label>
+        <label class="opt"><input type="radio" name="experience" value="10+ years"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>10+ years</div></label>
+      </div>
+      <p class="error-msg">Please select your experience level.</p>
+    </div>
+
+    <div class="q-block" id="q6">
+      <div class="q-label">
+        <span class="q-num">Q6</span>
+        <div>
+          <div class="q-text">Which asset classes do you currently trade or invest in? <span class="q-hint">(Select all that apply)</span><span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid">
+        <label class="opt opt-checkbox"><input type="checkbox" name="assets" value="Stocks/Equities"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>Stocks / Equities</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="assets" value="ETFs"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>ETFs</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="assets" value="Forex"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>Forex / FX</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="assets" value="Crypto"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>Cryptocurrency</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="assets" value="Options"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>Options / Derivatives</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="assets" value="Bonds"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>Bonds / Fixed income</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="assets" value="Commodities"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>Commodities</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="assets" value="None yet"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>None yet — I'm just starting</div></label>
+      </div>
+      <p class="error-msg">Please select at least one asset class.</p>
+    </div>
+
+    <div class="q-block" id="q7">
+      <div class="q-label">
+        <span class="q-num">Q7</span>
+        <div>
+          <div class="q-text">How frequently do you trade?<span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid">
+        <label class="opt"><input type="radio" name="frequency" value="Multiple times a day"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Multiple times a day</div></label>
+        <label class="opt"><input type="radio" name="frequency" value="Daily"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Daily</div></label>
+        <label class="opt"><input type="radio" name="frequency" value="Weekly"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Weekly</div></label>
+        <label class="opt"><input type="radio" name="frequency" value="Monthly"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Monthly</div></label>
+        <label class="opt"><input type="radio" name="frequency" value="Rarely"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Rarely / buy-and-hold</div></label>
+      </div>
+      <p class="error-msg">Please select your trading frequency.</p>
+    </div>
+
+    <div class="q-block" id="q8">
+      <div class="q-label">
+        <span class="q-num">Q8</span>
+        <div>
+          <div class="q-text">What is the approximate total value of your investment portfolio?<span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid">
+        <label class="opt"><input type="radio" name="portfolio" value="Under £5k"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Under £5,000</div></label>
+        <label class="opt"><input type="radio" name="portfolio" value="£5k–£25k"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>£5,000 – £25,000</div></label>
+        <label class="opt"><input type="radio" name="portfolio" value="£25k–£100k"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>£25,000 – £100,000</div></label>
+        <label class="opt"><input type="radio" name="portfolio" value="£100k–£250k"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>£100,000 – £250,000</div></label>
+        <label class="opt"><input type="radio" name="portfolio" value="Over £250k"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Over £250,000</div></label>
+        <label class="opt"><input type="radio" name="portfolio" value="Prefer not to say"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Prefer not to say</div></label>
+      </div>
+      <p class="error-msg">Please select your portfolio range.</p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goTo(1)">← Back</button>
+      <button class="btn-primary" onclick="next(2, ['q5','q6','q7','q8'], 3)">Continue <span class="btn-arrow">→</span></button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 3 — RISK TOLERANCE
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-3">
+    <div id="stepTrail3"></div>
+    <div class="section-badge">Section 3 of 5</div>
+    <h2 class="section-title">Risk tolerance</h2>
+    <p class="section-sub">Understanding your comfort with risk helps us calibrate strategies appropriately.</p>
+
+    <div class="q-block" id="q9">
+      <div class="q-label">
+        <span class="q-num">Q9</span>
+        <div>
+          <div class="q-text">How would you describe your risk appetite?<span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid single-col">
+        <label class="opt"><input type="radio" name="risk" value="Very Low"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div><div><strong>Very Low</strong> — I prioritise capital preservation above all else</div></div></label>
+        <label class="opt"><input type="radio" name="risk" value="Low"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div><div><strong>Low</strong> — Modest returns; I'm uncomfortable with significant losses</div></div></label>
+        <label class="opt"><input type="radio" name="risk" value="Medium"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div><div><strong>Medium</strong> — Balanced; I accept some volatility for reasonable returns</div></div></label>
+        <label class="opt"><input type="radio" name="risk" value="High"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div><div><strong>High</strong> — Growth-focused; comfortable with large swings</div></div></label>
+        <label class="opt"><input type="radio" name="risk" value="Very High"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div><div><strong>Very High</strong> — Speculative; I target maximum returns and accept high drawdowns</div></div></label>
+      </div>
+      <p class="error-msg">Please select your risk appetite.</p>
+    </div>
+
+    <div class="q-block" id="q10">
+      <div class="q-label">
+        <span class="q-num">Q10</span>
+        <div>
+          <div class="q-text">If your portfolio dropped 20% in one month, you would most likely:<span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid single-col">
+        <label class="opt"><input type="radio" name="drawdown" value="Sell everything"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Sell everything immediately to stop further losses</div></label>
+        <label class="opt"><input type="radio" name="drawdown" value="Reduce position"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Reduce positions and reassess the strategy</div></label>
+        <label class="opt"><input type="radio" name="drawdown" value="Hold"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Hold — drawdowns are part of the process</div></label>
+        <label class="opt"><input type="radio" name="drawdown" value="Buy more"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Buy more — this is a buying opportunity</div></label>
+      </div>
+      <p class="error-msg">Please select your most likely response.</p>
+    </div>
+
+    <div class="q-block" id="q11">
+      <div class="q-label">
+        <span class="q-num">Q11</span>
+        <div>
+          <div class="q-text">What is the maximum monthly drawdown you would accept before pausing a strategy?<span class="q-required">*</span></div>
+          <div class="q-hint">Drag the slider to indicate your threshold</div>
+        </div>
+      </div>
+      <div class="range-wrapper">
+        <div class="range-labels">
+          <span>0% (no loss tolerated)</span>
+          <span>50% (very high tolerance)</span>
+        </div>
+        <input type="range" id="drawdownSlider" min="0" max="50" value="15" step="1" oninput="updateSlider('drawdownSlider','drawdownVal','drawdownSlider', '%')">
+        <div class="range-val" id="drawdownVal">15%</div>
+      </div>
+      <input type="hidden" id="drawdownHidden" value="15">
+    </div>
+
+    <div class="q-block" id="q12">
+      <div class="q-label">
+        <span class="q-num">Q12</span>
+        <div>
+          <div class="q-text">What is your primary investment objective?<span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid">
+        <label class="opt"><input type="radio" name="objective" value="Capital preservation"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Capital preservation</div></label>
+        <label class="opt"><input type="radio" name="objective" value="Income generation"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Regular income</div></label>
+        <label class="opt"><input type="radio" name="objective" value="Long-term growth"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Long-term growth</div></label>
+        <label class="opt"><input type="radio" name="objective" value="Speculation"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Short-term speculation</div></label>
+        <label class="opt"><input type="radio" name="objective" value="Diversification"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Portfolio diversification</div></label>
+      </div>
+      <p class="error-msg">Please select your primary objective.</p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goTo(2)">← Back</button>
+      <button class="btn-primary" onclick="next(3, ['q9','q10','q12'], 4)">Continue <span class="btn-arrow">→</span></button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 4 — ALGO TRADING AWARENESS
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-4">
+    <div id="stepTrail4"></div>
+    <div class="section-badge">Section 4 of 5</div>
+    <h2 class="section-title">Algorithmic trading awareness</h2>
+    <p class="section-sub">We want to understand your current familiarity with automated trading systems.</p>
+
+    <div class="q-block" id="q13">
+      <div class="q-label">
+        <span class="q-num">Q13</span>
+        <div><div class="q-text">How familiar are you with algorithmic (automated) trading?<span class="q-required">*</span></div></div>
+      </div>
+      <div class="options-grid single-col">
+        <label class="opt"><input type="radio" name="awareness" value="Not at all"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Not at all familiar — I've never heard of it</div></label>
+        <label class="opt"><input type="radio" name="awareness" value="Heard of it"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>I've heard of it but don't understand how it works</div></label>
+        <label class="opt"><input type="radio" name="awareness" value="Basic understanding"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>I have a basic understanding but haven't used it</div></label>
+        <label class="opt"><input type="radio" name="awareness" value="Used before"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>I've tried using basic algo tools</div></label>
+        <label class="opt"><input type="radio" name="awareness" value="Active user"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>I actively use algorithmic trading tools</div></label>
+      </div>
+      <p class="error-msg">Please select your familiarity level.</p>
+    </div>
+
+    <div class="q-block" id="q14">
+      <div class="q-label">
+        <span class="q-num">Q14</span>
+        <div>
+          <div class="q-text">What is the biggest barrier stopping you from using algorithmic trading? <span class="q-hint">(Select your top reason)</span><span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid single-col">
+        <label class="opt"><input type="radio" name="barrier" value="Too complex"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>It's too complex / requires coding skills</div></label>
+        <label class="opt"><input type="radio" name="barrier" value="Lack of knowledge"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>I don't understand how to build strategies</div></label>
+        <label class="opt"><input type="radio" name="barrier" value="Trust issues"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>I don't trust AI / automated decisions with my money</div></label>
+        <label class="opt"><input type="radio" name="barrier" value="Cost"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>The cost of platforms is prohibitive</div></label>
+        <label class="opt"><input type="radio" name="barrier" value="Time constraints"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>I don't have time to learn or manage it</div></label>
+        <label class="opt"><input type="radio" name="barrier" value="No barrier"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>There is no barrier — I already use it</div></label>
+      </div>
+      <p class="error-msg">Please select the main barrier.</p>
+    </div>
+
+    <div class="q-block" id="q15">
+      <div class="q-label">
+        <span class="q-num">Q15</span>
+        <div>
+          <div class="q-text">Have you ever used any of the following trading tools or platforms? <span class="q-hint">(Select all that apply)</span></div>
+        </div>
+      </div>
+      <div class="options-grid">
+        <label class="opt opt-checkbox"><input type="checkbox" name="platforms" value="eToro"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>eToro</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="platforms" value="Trading212"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>Trading 212</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="platforms" value="IG Markets"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>IG Markets</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="platforms" value="QuantConnect"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>QuantConnect</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="platforms" value="MetaTrader"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>MetaTrader 4/5</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="platforms" value="Interactive Brokers"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>Interactive Brokers</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="platforms" value="Hargreaves Lansdown"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>Hargreaves Lansdown</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="platforms" value="Vanguard"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>Vanguard</div></label>
+        <label class="opt opt-checkbox"><input type="checkbox" name="platforms" value="None"><div class="opt-label"><div class="opt-indicator opt-indicator--cb"><div class="opt-indicator-inner"></div></div>None of the above</div></label>
+      </div>
+    </div>
+
+    <div class="q-block" id="q16">
+      <div class="q-label">
+        <span class="q-num">Q16</span>
+        <div>
+          <div class="q-text">How did you first learn about algorithmic trading?<span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="select-wrapper">
+        <select class="select-input" id="q16select" name="discovery">
+          <option value="" disabled selected>Select a channel...</option>
+          <option>YouTube / TikTok</option>
+          <option>Financial news (Bloomberg, Reuters, FT)</option>
+          <option>Reddit / Twitter / social media</option>
+          <option>Podcast</option>
+          <option>Friend or colleague</option>
+          <option>Industry event / webinar / conference</option>
+          <option>Financial advisor</option>
+          <option>LinkedIn</option>
+          <option>Newspaper / magazine</option>
+          <option>I haven't — this is my first encounter</option>
+        </select>
+      </div>
+      <p class="error-msg">Please select a discovery channel.</p>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goTo(3)">← Back</button>
+      <button class="btn-primary" onclick="next(4, ['q13','q14','q16'], 5)">Continue <span class="btn-arrow">→</span></button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 5 — ALGOSARK INTEREST
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-5">
+    <div id="stepTrail5"></div>
+    <div class="section-badge">Section 5 of 5</div>
+    <h2 class="section-title">Algosark — your interest & expectations</h2>
+    <p class="section-sub">The final section. Help us understand what would make Algosark valuable to you.</p>
+
+    <div class="info-box">
+      <span class="info-icon">ℹ</span>
+      <span>Algosark is a no-code platform that generates personalised algorithmic trading strategies from a short risk survey — no coding, no quant finance background required. Strategies are backtested and delivered via a paper-trading dashboard before you commit real capital.</span>
+    </div>
+
+    <div class="q-block" id="q17">
+      <div class="q-label">
+        <span class="q-num">Q17</span>
+        <div><div class="q-text">How interested are you in using a platform like Algosark?<span class="q-required">*</span></div></div>
+      </div>
+      <div class="options-grid single-col">
+        <label class="opt"><input type="radio" name="interest" value="Very Interested"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Very Interested — I would sign up today</div></label>
+        <label class="opt"><input type="radio" name="interest" value="Interested"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Interested — I'd like to learn more first</div></label>
+        <label class="opt"><input type="radio" name="interest" value="Neutral"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Neutral — I'm not sure yet</div></label>
+        <label class="opt"><input type="radio" name="interest" value="Unlikely"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Unlikely — I prefer to manage trades myself</div></label>
+        <label class="opt"><input type="radio" name="interest" value="Not Interested"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Not Interested</div></label>
+      </div>
+      <p class="error-msg">Please select your level of interest.</p>
+    </div>
+
+    <div class="q-block" id="q18">
+      <div class="q-label">
+        <span class="q-num">Q18</span>
+        <div>
+          <div class="q-text">Which feature of Algosark is most important to you? <span class="q-hint">(Select your top priority)</span><span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid">
+        <label class="opt"><input type="radio" name="feature" value="Personalisation"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Personalised strategy</div></label>
+        <label class="opt"><input type="radio" name="feature" value="Backtesting"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Historical backtesting</div></label>
+        <label class="opt"><input type="radio" name="feature" value="Ease of use"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Ease of use / no-code</div></label>
+        <label class="opt"><input type="radio" name="feature" value="Automation"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Full automation</div></label>
+        <label class="opt"><input type="radio" name="feature" value="Risk management"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Risk management tools</div></label>
+        <label class="opt"><input type="radio" name="feature" value="Transparency"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Transparency / explainability</div></label>
+        <label class="opt"><input type="radio" name="feature" value="Performance analytics"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Performance analytics</div></label>
+        <label class="opt"><input type="radio" name="feature" value="API integration"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Brokerage API connection</div></label>
+      </div>
+      <p class="error-msg">Please select your top feature priority.</p>
+    </div>
+
+    <div class="q-block" id="q19">
+      <div class="q-label">
+        <span class="q-num">Q19</span>
+        <div>
+          <div class="q-text">How much would you be willing to pay per month for a personalised algo trading strategy platform?<span class="q-required">*</span></div>
+        </div>
+      </div>
+      <div class="options-grid" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 12px;">
+        <label class="opt">
+          <input type="radio" name="wtp" value="29" onchange="document.getElementById('wtpCustomSection').style.display='none'">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>£29 / month</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="wtp" value="59" onchange="document.getElementById('wtpCustomSection').style.display='none'">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>£59 / month</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="wtp" value="99" onchange="document.getElementById('wtpCustomSection').style.display='none'">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>£99 / month</div>
+        </label>
+        <label class="opt">
+          <input type="radio" name="wtp" value="custom" onchange="document.getElementById('wtpCustomSection').style.display='block'; updateWtpSlider();">
+          <div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Custom amount</div>
+        </label>
+      </div>
+      <div id="wtpCustomSection" style="display:none; margin-top:8px;">
+        <div class="q-hint" style="margin-bottom:10px;">Drag to set your custom monthly amount</div>
+        <div class="range-wrapper">
+          <div class="range-labels">
+            <span>£0</span>
+            <span>£200+</span>
+          </div>
+          <input type="range" id="wtpSlider" min="0" max="200" value="50" step="5" oninput="updateWtpSlider()">
+          <div class="range-val" id="wtpVal">£50/month</div>
+        </div>
+      </div>
+      <p class="error-msg">Please select your willingness to pay.</p>
+    </div>
+
+    <div class="q-block" id="q20">
+      <div class="q-label">
+        <span class="q-num">Q20</span>
+        <div><div class="q-text">Would you be willing to try paper trading (virtual funds, zero real-money risk) before subscribing?<span class="q-required">*</span></div></div>
+      </div>
+      <div class="options-grid">
+        <label class="opt"><input type="radio" name="paper" value="Yes, definitely"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Yes, definitely</div></label>
+        <label class="opt"><input type="radio" name="paper" value="Probably yes"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>Probably yes</div></label>
+        <label class="opt"><input type="radio" name="paper" value="Unsure"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>I'm unsure</div></label>
+        <label class="opt"><input type="radio" name="paper" value="No"><div class="opt-label"><div class="opt-indicator"><div class="opt-indicator-inner"></div></div>No — I'd prefer live trading immediately</div></label>
+      </div>
+      <p class="error-msg">Please select your preference.</p>
+    </div>
+
+    <div class="q-block" id="q21">
+      <div class="q-label">
+        <span class="q-num">Q21</span>
+        <div>
+          <div class="q-text">How likely are you to adopt Algosark if it matches your risk profile?<span class="q-required">*</span></div>
+          <div class="q-hint">1 = Very unlikely &nbsp;&nbsp; 10 = Extremely likely</div>
+        </div>
+      </div>
+      <div class="range-wrapper">
+        <div class="range-labels">
+          <span>1 — Very unlikely</span>
+          <span>10 — Extremely likely</span>
+        </div>
+        <input type="range" id="adoptSlider" min="1" max="10" value="5" step="1" oninput="updateSlider('adoptSlider','adoptVal','adoptSlider', '')">
+        <div class="range-val" id="adoptVal">5 / 10</div>
+        <div class="range-scale" id="adoptScale"></div>
+      </div>
+    </div>
+
+    <div class="q-block" id="q22">
+      <div class="q-label">
+        <span class="q-num">Q22</span>
+        <div>
+          <div class="q-text">Any other comments, suggestions, or questions about Algosark?</div>
+          <div class="q-hint">Optional — your feedback is very welcome</div>
+        </div>
+      </div>
+      <textarea class="text-input" name="comments" id="commentsField" placeholder="Share any thoughts, concerns, or feature requests here…" rows="4"></textarea>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-secondary" onclick="goTo(4)">← Back</button>
+      <button class="btn-primary" onclick="submitSurvey()">Submit Survey <span class="btn-arrow">→</span></button>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════
+       SCREEN 6 — THANK YOU
+  ═══════════════════════════════════════════ -->
+  <div class="screen" id="screen-6">
+    <div class="ty-icon">✓</div>
+    <p class="cover-eyebrow">Response submitted</p>
+    <h2 class="ty-title">Thank you for taking part</h2>
+    <p class="ty-sub">Your responses have been recorded and will directly inform the development of Algosark. We genuinely appreciate the time you've given to help us build a better platform for UK retail investors.</p>
+
+    <div class="ty-stats">
+      <div class="ty-stat">
+        <span class="ty-stat-val" id="tyTime">—</span>
+        <span class="ty-stat-label">Time taken</span>
+      </div>
+      <div class="ty-stat">
+        <span class="ty-stat-val">22</span>
+        <span class="ty-stat-label">Questions answered</span>
+      </div>
+      <div class="ty-stat">
+        <span class="ty-stat-val">5</span>
+        <span class="ty-stat-label">Sections covered</span>
+      </div>
+    </div>
+
+    <div class="conf-banner" style="max-width:520px;">
+      <strong>What happens next:</strong> Your data is anonymised and analysed alongside other responses. Results will be used in the Algosark research report by Tomiwa Kunle Oluwadare & Samuel Vikas Gujju. Contact: <strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6807041d1f090c091a0d1c0705011f09280f05090104460b0705">[email&#160;protected]</a></strong>
+    </div>
+  </div>
+
+</main>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const SECTIONS = ['Cover','Demographics','Trading Profile','Risk Tolerance','Algo Awareness','Algosark Interest'];
+let currentScreen = 0;
+let startTime = Date.now();
+
+function buildStepTrail(screenId) {
+  const container = document.getElementById('stepTrail' + screenId);
+  if (!container) return;
+  container.innerHTML = '';
+  container.className = 'step-trail';
+  const steps = ['Demographics','Trading Profile','Risk Tolerance','Algo Awareness','Algosark'];
+  steps.forEach((name, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'step-dot';
+    const idx = screenId;
+    if (i + 1 < idx) dot.className += ' done';
+    else if (i + 1 === idx) dot.className += ' active';
+    dot.innerHTML = `<div class="step-dot-circle">${i + 1 < idx ? '✓' : i + 1}</div><div class="step-dot-name">${name}</div>`;
+    container.appendChild(dot);
+    if (i < steps.length - 1) {
+      const line = document.createElement('div');
+      line.className = 'step-line' + (i + 1 < idx ? ' done' : '');
+      container.appendChild(line);
+    }
+  });
+}
+
+function goTo(n) {
+  document.getElementById('screen-' + currentScreen).classList.remove('active');
+  currentScreen = n;
+  document.getElementById('screen-' + n).classList.add('active');
+  updateProgress();
+  buildStepTrail(n);
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress() {
+  const pct = (currentScreen / 6) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('stepLabel').textContent = Math.min(currentScreen, 5) + (currentScreen === 0 ? '' : '');
+  const labels = ['Intro','1','2','3','4','5'];
+  document.getElementById('stepLabel').textContent = labels[Math.min(currentScreen, 5)];
+}
+
+function validateRadio(name) {
+  return document.querySelector(`input[name="${name}"]:checked`) !== null;
+}
+
+function validateCheckbox(name) {
+  return document.querySelectorAll(`input[name="${name}"]:checked`).length > 0;
+}
+
+function validateSelect(id) {
+  const el = document.getElementById(id);
+  return el && el.value !== '';
+}
+
+const VALIDATORS = {
+  q1: () => validateRadio('age'),
+  q2: () => validateRadio('gender'),
+  q3: () => validateRadio('income'),
+  q4: () => validateRadio('employment'),
+  q5: () => validateRadio('experience'),
+  q6: () => validateCheckbox('assets'),
+  q7: () => validateRadio('frequency'),
+  q8: () => validateRadio('portfolio'),
+  q9: () => validateRadio('risk'),
+  q10: () => validateRadio('drawdown'),
+  q12: () => validateRadio('objective'),
+  q13: () => validateRadio('awareness'),
+  q14: () => validateRadio('barrier'),
+  q16: () => validateSelect('q16select'),
+  q19: () => validateRadio('wtp'),
+  q17: () => validateRadio('interest'),
+  q18: () => validateRadio('feature'),
+  q20: () => validateRadio('paper'),
+};
+
+function next(fromScreen, requiredQs, toScreen) {
+  let allValid = true;
+  requiredQs.forEach(qId => {
+    const block = document.getElementById(qId);
+    const valid = VALIDATORS[qId] ? VALIDATORS[qId]() : true;
+    block.classList.toggle('has-error', !valid);
+    if (!valid) allValid = false;
+  });
+  if (allValid) goTo(toScreen);
+  else {
+    const firstErr = document.querySelector('.has-error');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+}
+
+// Live clear errors
+document.addEventListener('change', e => {
+  const block = e.target.closest('.q-block');
+  if (block && block.classList.contains('has-error')) block.classList.remove('has-error');
+});
+
+function updateWtpSlider() {
+  const slider = document.getElementById('wtpSlider');
+  const val = parseInt(slider.value);
+  const display = document.getElementById('wtpVal');
+  display.textContent = val >= 200 ? '£200+/month' : '£' + val + '/month';
+  const pct = (val - slider.min) / (slider.max - slider.min) * 100;
+  slider.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--border) ${pct}%)`;
+}
+
+function updateSlider(sliderId, valId, _, suffix) {
+  const slider = document.getElementById(sliderId);
+  const val = parseInt(slider.value);
+  const display = document.getElementById(valId);
+
+  if (sliderId === 'wtpSlider') {
+    display.textContent = val === 0 ? 'Free only' : val === 100 ? '£100+/month' : '£' + val + suffix;
+  } else if (sliderId === 'adoptSlider') {
+    display.textContent = val + ' / 10';
+    updateScaleBtns('adoptScale', val, 1, 10);
+  } else {
+    display.textContent = val + suffix;
+  }
+
+  const pct = (val - slider.min) / (slider.max - slider.min) * 100;
+  slider.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--border) ${pct}%)`;
+}
+
+function updateScaleBtns(containerId, current, min, max) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  container.querySelectorAll('.scale-btn').forEach(btn => {
+    btn.classList.toggle('active', parseInt(btn.dataset.val) === current);
+  });
+}
+
+function buildScales() {
+  const adoptScale = document.getElementById('adoptScale');
+  if (adoptScale && adoptScale.children.length === 0) {
+    for (let i = 1; i <= 10; i++) {
+      const btn = document.createElement('div');
+      btn.className = 'scale-btn' + (i === 5 ? ' active' : '');
+      btn.textContent = i;
+      btn.dataset.val = i;
+      btn.onclick = () => {
+        document.getElementById('adoptSlider').value = i;
+        updateSlider('adoptSlider','adoptVal','adoptSlider','');
+      };
+      adoptScale.appendChild(btn);
+    }
+  }
+  // init slider visuals
+  ['drawdownSlider','adoptSlider'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      const pct = (el.value - el.min) / (el.max - el.min) * 100;
+      el.style.background = `linear-gradient(to right, var(--accent) ${pct}%, var(--border) ${pct}%)`;
+    }
+  });
+}
+
+window.addEventListener('load', buildScales);
+
+function submitSurvey() {
+  const requiredQs = ['q17','q18','q19','q20'];
+  let allValid = true;
+  requiredQs.forEach(qId => {
+    const block = document.getElementById(qId);
+    const valid = VALIDATORS[qId] ? VALIDATORS[qId]() : true;
+    block.classList.toggle('has-error', !valid);
+    if (!valid) allValid = false;
+  });
+  if (!allValid) {
+    const firstErr = document.querySelector('.has-error');
+    if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+
+  const elapsed = Math.round((Date.now() - startTime) / 1000);
+  const mins = Math.floor(elapsed / 60);
+  const secs = elapsed % 60;
+
+  // ── Collect all answers ──
+  function getRadio(name) {
+    const el = document.querySelector(`input[name="${name}"]:checked`);
+    return el ? el.value : '';
+  }
+  function getCheckboxes(name) {
+    return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`)).map(e => e.value).join('; ');
+  }
+  function getSelect(id) {
+    const el = document.getElementById(id);
+    return el ? el.value : '';
+  }
+  function getSlider(id) {
+    const el = document.getElementById(id);
+    return el ? el.value : '';
+  }
+  function getText(id) {
+    const el = document.getElementById(id);
+    return el ? el.value.trim() : '';
+  }
+
+  const payload = {
+    _subject: 'New Algosark Survey Response',
+    'Time taken': `${mins}m ${secs}s`,
+    'Q1 Age': getRadio('age'),
+    'Q2 Gender': getRadio('gender'),
+    'Q3 Income': getRadio('income'),
+    'Q4 Employment': getRadio('employment'),
+    'Q5 Trading Experience': getRadio('experience'),
+    'Q6 Asset Classes': getCheckboxes('assets'),
+    'Q7 Trading Frequency': getRadio('frequency'),
+    'Q8 Portfolio Size': getRadio('portfolio'),
+    'Q9 Risk Tolerance': getRadio('risk'),
+    'Q10 Max Drawdown (%)': getSlider('drawdownSlider'),
+    'Q12 Investment Objective': getRadio('objective'),
+    'Q13 Algo Awareness': getRadio('awareness'),
+    'Q14 Barrier to Adoption': getRadio('barrier'),
+    'Q16 Trusted Signal Source': getSelect('q16select'),
+    'Q17 Interest Level': getRadio('interest'),
+    'Q18 Most Valued Feature': getRadio('feature'),
+    'Q19 Willingness to Pay (£/mo)': (() => {
+      const sel = document.querySelector('input[name="wtp"]:checked');
+      if (!sel) return '';
+      if (sel.value === 'custom') return '£' + document.getElementById('wtpSlider').value + '/month (custom)';
+      return '£' + sel.value + '/month';
+    })(),
+    'Q20 Paper Trading': getRadio('paper'),
+    'Q21 Adoption Likelihood (1-10)': getSlider('adoptSlider'),
+    'Q22 Comments': getText('commentsField'),
+  };
+
+  // ── Send to Formspree ──
+  // TODO: Replace YOUR_FORM_ID below with your actual Formspree form ID
+  fetch('https://formspree.io/f/xbdznqqd', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(res => {
+    if (res.ok) {
+      document.getElementById('tyTime').textContent = `${mins}m ${secs}s`;
+      goTo(6);
+    } else {
+      return res.json().then(data => { throw new Error(data.error || 'Submission failed'); });
+    }
+  })
+  .catch(err => {
+    alert('Submission error: ' + err.message + '\n\nPlease check your Formspree form ID is set correctly.');
+  });
+}
+</script>
+</body>
+</html>
